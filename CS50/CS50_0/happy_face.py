@@ -1,12 +1,12 @@
 
-def conversion(string):
+def conversion(stringy):
     # string = input("gimme a smiley or sad face--> ")
-    if string == ":)":
+    if stringy == ":)":
         smiley = "Hello! 🙂"
-    elif string == ":(":
+    elif stringy == ":(":
         smiley = "Goodbye 🙁"
     else:
         smiley = "error"
     print(smiley)
     
-conversion(":)")
+conversion(":(")
