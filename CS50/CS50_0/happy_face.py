@@ -8,5 +8,6 @@ def conversion(stringy):
     else:
         smiley = "error"
     print(smiley)
-    
+
+
 conversion(":(")
