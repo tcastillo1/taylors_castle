@@ -32,5 +32,5 @@ for i in games.get_dict()["scoreboard"]["games"]:
     pdf.cell(200, 10, txt=text_to_write, ln=x + 1, align='C')
     x = x + 2
 
-pdf.cell(200, 10, txt="kings got robbed fuck the lakers", ln=x + 3, align='C')
+pdf.cell(200, 10, txt="kings got robbed eff the lakers", ln=x + 3, align='C')
 pdf.output("scoreboard.pdf")
