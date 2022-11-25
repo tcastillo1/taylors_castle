@@ -11,4 +11,4 @@ def kfm(a, b, c):
         del names[location]
 
 
-kfm("obama", "biden", "trump")
+kfm("melania", "megan fox", "mila kunis")

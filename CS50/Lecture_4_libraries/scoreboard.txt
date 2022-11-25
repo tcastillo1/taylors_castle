@@ -1,21 +1,17 @@
 Scoreboard
-Atlanta Hawks vs Toronto Raptors
-     Current Score: 73-75
-     Clint Capela 16 points
-     Thaddeus Young 14 points
-Indiana Pacers vs Orlando Magic
-     Current Score: 26-28
-     Myles Turner 5 points
-     Chuma Okeke 4 points
-Philadelphia 76ers vs Minnesota Timberwolves
-     Current Score: 0-0
-      0 points
-      0 points
-Portland Trail Blazers vs Utah Jazz
-     Current Score: 0-0
-      0 points
-      0 points
-LA Clippers vs San Antonio Spurs
-     Current Score: 0-0
-      0 points
-      0 points
+Phoenix Suns vs Los Angeles Lakers
+     Current Score: 106-96
+     Mikal Bridges 23 points
+     Anthony Davis 34 points
+Philadelphia 76ers vs Brooklyn Nets
+     Current Score: 115-106
+     Tobias Harris 24 points
+     Kevin Durant 20 points
+Memphis Grizzlies vs Sacramento Kings
+     Current Score: 109-113
+     Ja Morant 34 points
+     De'Aaron Fox 32 points
+Denver Nuggets vs Detroit Pistons
+     Current Score: 108-110
+     Nikola Jokic 31 points
+     Bojan Bogdanovic 22 points
