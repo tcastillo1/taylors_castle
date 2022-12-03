@@ -5,7 +5,7 @@ import matplotlib
 import datetime as dt
 
 sa = gspread.service_account(
-    filename="/Users/taylorcastillo/Documents/keys/service_account.json")
+    filename="/Users/taylorcastillo/Documents/Python/keys/service_account.json")
 
 sh = sa.open("Calorie Tracker")
 wks = sh.worksheet("Form Responses 1")
