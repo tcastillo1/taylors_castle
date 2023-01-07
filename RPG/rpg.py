@@ -2,15 +2,34 @@ import random
 
 
 class Mage:
-    pass
+    def __init__(self):
+        self.hp = random.randint(50, 70)
+        self.dmg = random.randint(20, 30)
+        self.mana = random.randint(100, 120)
+        self.armor = random.randint(10, 30)
+        self.weapon_type = "staff"
+        self.armor_type = "cloth"
+        self.abilities = ["Fireball", "Frostbolt", "Meditate"]
 
 
 class Warrior:
-    pass
+    def __init__(self):
+        self.hp = random.randint(100, 130)
+        self.dmg = random.randint(30, 40)
+        self.armor = random.randint(50, 70)
+        self.weapon_type = "sword"
+        self.armor_type = "mail"
+        self.abilities = ["Slam", "Taunt", "Bash"]
 
 
 class Rogue:
-    pass
+    def __init__(self):
+        self.hp = random.randint(70, 100)
+        self.dmg = random.randint(50, 60)
+        self.armor = random.randint(50, 70)
+        self.weapon_type = "dagger"
+        self.armor_type = "leather"
+        self.abilities = ["Shiv", "Stealth", "Backstab"]
 
 
 class HeroClass:
@@ -44,6 +63,12 @@ class HeroClass:
 
     def __str__(self):
         return f"This champion is a {self.hero_class()}. They have {self.hp()} hit points and their ult is {self.ult()}"
+
+
+class Battle(Hero, Enemy):
+    def __init__(self, player, enemy):
+        self.player = player
+        self.enemy = enemy
 
 
 jane = HeroClass("Mage")
