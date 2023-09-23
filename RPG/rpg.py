@@ -1,6 +1,5 @@
 import random
 
-
 class Mage:
     def __init__(self):
         self.hp = random.randint(50, 70)
