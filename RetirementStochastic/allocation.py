@@ -4,7 +4,7 @@ from arrays import age_array
 # this function produces a two-dimensional numpy array of shape 2 x n, where n represents
 # the total number of periods in the projection. the first row represents the age array beginning 
 # at the starting age and ending after n years. the second row represents the allocation array that 
-# defines the pct of the investment fund to be invested in stocks at the corresponding age.
+# defines the pct of the investment fund to be invested in stocks at each period.
 def allocation_array(
     start_pct = .90,        # pct invested in equities at the start of the projection
     five_yr_pct = .55,      # pct invested in equities 5 years out from retirement
@@ -59,10 +59,7 @@ def allocation_array(
     equity_allocation_array = np.concatenate((segment_one_array,segment_two_array,segment_three_array,segment_four_array))
     bond_allocation_array = 1 - equity_allocation_array
 
-    # create an age array to act as a helper array when graphing
-    age_arr = age_array(age = age, periods_per_year = periods_per_year, years = years)
-
     # add the age, equity and bond allocation arrays into a single multidimensional array
-    result_array = np.vstack((age_arr, equity_allocation_array, bond_allocation_array))
+    result_array = np.vstack((equity_allocation_array, bond_allocation_array))
 
     return result_array
