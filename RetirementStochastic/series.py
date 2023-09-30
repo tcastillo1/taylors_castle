@@ -30,7 +30,6 @@ def invest_series(salary_s = None, invest_pct = .15, periods_per_year = 12, with
     return invest
 
 def mortality_sim(age = 32, ret_age = 65, sex = 'F', smoker = 'NS', n_scenarios = 1000, mi = .99):
-    
     mort_df = pd.read_csv('MortalityTables/cso2017.csv')
     mort_df = mort_df.set_index(['Sex', 'SmokingStatus', 'IssueAge'])
     row = mort_df.loc[(sex, smoker, ret_age)]
