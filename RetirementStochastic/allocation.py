@@ -1,17 +1,18 @@
 import numpy as np
-from arrays import age_array
+from series import age_series
+import pandas as pd
 
 # this function produces a two-dimensional numpy array of shape 2 x n, where n represents
 # the total number of periods in the projection. the first row represents the age array beginning 
 # at the starting age and ending after n years. the second row represents the allocation array that 
 # defines the pct of the investment fund to be invested in stocks at each period.
-def allocation_array(
+def allocation(
     start_pct = .90,        # pct invested in equities at the start of the projection
     five_yr_pct = .55,      # pct invested in equities 5 years out from retirement
     end_pct = .40,          # pct invested in equities at retirement
     age = 30,               # age at the start of the projection
     ret_age = 65,           # retirement age and the age at which the end allocation pct is reached
-    periods_per_year = 2,   # the number of periods in a year
+    periods_per_year = 12,   # the number of periods in a year
     years = 40              # length of the projection in years
 ):
     
@@ -60,6 +61,6 @@ def allocation_array(
     bond_allocation_array = 1 - equity_allocation_array
 
     # add the age, equity and bond allocation arrays into a single multidimensional array
-    result_array = np.vstack((equity_allocation_array, bond_allocation_array))
-
-    return result_array
+    result_array = np.column_stack((equity_allocation_array, bond_allocation_array))
+    df = pd.DataFrame(result_array, columns =['equity', 'bond'])
+    return df
