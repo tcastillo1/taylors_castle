@@ -4,6 +4,7 @@ import random
 
 
 def age_series(age=30, freq=12, yrs=40, **kwargs):
+    """Produces an array that denotes the age at each period"""
     age_array = np.ones(freq * yrs + 1) / freq
     age_array[0] = age
     age_array = np.cumsum(age_array)
@@ -14,6 +15,7 @@ def age_series(age=30, freq=12, yrs=40, **kwargs):
 def salary_series(
     salary=100000, salary_growth=0.04, freq=12, yrs=40, age=30, ret_age=65, **kwargs
 ):
+    """Produces an array that determines the salary at each period."""
     income_period = ret_age - age
     salary_growth_per_period = (1 + salary_growth) ** (1 / freq) - 1
     salary_growth_array = np.ones(freq * yrs + 1) * (1 + salary_growth_per_period)
@@ -33,6 +35,11 @@ def invest_series(
     ret_age=65,
     **kwargs
 ):
+    """
+    Produces an array that determines the amount to be invested or withdrawn at each period. For a
+    given period, if age < retirement age, investments will be made. Once retirement is reached,
+    investments will cease and withdrawals will begin.
+    """
     income_period = ret_age - age
     if salary_s is None:
         salary_s = salary_series()
@@ -43,9 +50,15 @@ def invest_series(
     return invest
 
 
+# simulate mortality for n scenarios starting at retirement
+# mi is mortality improvement
 def mortality_sim(
     age=32, ret_age=65, sex="F", smoker="NS", n_scen=1000, mi=0.99, **kwargs
 ):
+    """
+    Runs a monte carlo simulation on n scenarios to determine age at death. Each item in the
+    resulting array represent the age at death for that scenario.
+    """
     mort_df = pd.read_csv("MortalityTables/cso2017.csv")
     mort_df = mort_df.set_index(["Sex", "SmokingStatus", "IssueAge"])
     row = mort_df.loc[(sex, smoker, ret_age)]
@@ -58,7 +71,7 @@ def mortality_sim(
         while random.random() > i:
             j += 1
             d += 1
-            if d < len(row):  # Check if index is out of range
+            if d < len(row):
                 i = row[d] / 1000 * (mi ** (j - age))
             else:
                 break
