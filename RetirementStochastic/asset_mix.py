@@ -1,5 +1,5 @@
 import numpy as np
-from series import age_series
+from RetirementStochastic.functions import age_series
 import pandas as pd
 
 
@@ -20,7 +20,7 @@ def asset_mix(
     **kwargs
 ):
     """
-    produces a 2 x n multidimensional array that defines the asset mix between stocks and bonds at
+    Produces a 2 x n multidimensional array that defines the asset mix between stocks and bonds at
     a given period. the sum of the two arrays is always equal to 1.0.
     """
     # income_period represents the number of income earning yrs
