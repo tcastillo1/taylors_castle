@@ -1,5 +1,5 @@
 import numpy as np
-from RetirementStochastic.functions import age_series
+from functions import age_series
 import pandas as pd
 
 

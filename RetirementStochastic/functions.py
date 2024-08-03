@@ -24,8 +24,10 @@ DEFAULT_CONFIG = {
 }
 
 
-def age_series(age=30, freq=12, yrs=40, **kwargs):
+def age_series(age, yrs, freq=1, **kwargs):
     """Produces an array that denotes the age at each period"""
+    age = age
+    yrs = yrs
     age_array = np.ones(freq * yrs + 1) / freq
     age_array[0] = age
     age_array = np.cumsum(age_array)
@@ -34,7 +36,7 @@ def age_series(age=30, freq=12, yrs=40, **kwargs):
 
 
 def salary_series(
-    salary=100000, salary_growth=0.04, freq=12, yrs=40, age=30, ret_age=65, **kwargs
+    salary=100000, salary_growth=0.04, freq=1, yrs=65, age=30, ret_age=65, **kwargs
 ):
     """Produces an array that determines the salary at each period."""
     income_period = ret_age - age
@@ -50,7 +52,7 @@ def salary_series(
 def invest_series(
     salary_s=None,
     invest_pct=0.15,
-    freq=12,
+    freq=1,
     ret_inc=100000,
     age=30,
     ret_age=65,
@@ -68,6 +70,10 @@ def invest_series(
     invest = salary_s * invest_pct_per_period
     invest[income_period * freq :] = -1 * ret_inc / freq
     invest.name = "invest"
+       # Ensure invest is a pandas Series
+    if not isinstance(invest, pd.Series):
+        invest = pd.Series(invest)
+    # salary_s = pd.Series(salary_array, name="salary")
     return invest
 
 
@@ -176,61 +182,61 @@ def asset_mix(
     return df
 
 
-def fund_projection(**kwargs):
-    config = DEFAULT_CONFIG.copy()
-    config.update(kwargs)
+# def fund_projection(**kwargs):
+#     config = DEFAULT_CONFIG.copy()
+#     config.update(kwargs)
 
-    s_pct = config["s_pct"]
-    freq = config["freq"]
-    yrs = config["yrs"]
-    fund_value = config["fund_value"]
+#     s_pct = config["s_pct"]
+#     freq = config["freq"]
+#     yrs = config["yrs"]
+#     fund_value = config["fund_value"]
 
-    b_pct = 1 - s_pct
-    n_steps = freq * yrs
-    dt = 1 / freq
-    x0 = 100
-    n_scen = yrs * freq
+#     b_pct = 1 - s_pct
+#     n_steps = freq * yrs
+#     dt = 1 / freq
+#     x0 = 100
+#     n_scen = yrs * freq
 
-    # instantiate a new model with the required parameters
-    stock_model = pyesg.GeometricBrownianMotion(mu=0.10, sigma=0.15)
-    bond_model = pyesg.GeometricBrownianMotion(mu=0.05, sigma=0.05)
+#     # instantiate a new model with the required parameters
+#     stock_model = pyesg.GeometricBrownianMotion(mu=0.10, sigma=0.15)
+#     bond_model = pyesg.GeometricBrownianMotion(mu=0.05, sigma=0.05)
 
-    # run model for both equities and bonds
-    s_model_results = stock_model.scenarios(x0, dt, n_scen, n_steps)
-    b_model_results = bond_model.scenarios(x0, dt, n_scen, n_steps)
+#     # run model for both equities and bonds
+#     s_model_results = stock_model.scenarios(x0, dt, n_scen, n_steps)
+#     b_model_results = bond_model.scenarios(x0, dt, n_scen, n_steps)
 
-    # create stock and bond index return arrays.
-    stock_return = s_model_results[:, 1:] / s_model_results[:, :-1]
-    bond_return = b_model_results[:, 1:] / b_model_results[:, :-1]
+#     # create stock and bond index return arrays.
+#     stock_return = s_model_results[:, 1:] / s_model_results[:, :-1]
+#     bond_return = b_model_results[:, 1:] / b_model_results[:, :-1]
 
-    # set beginning of fund array to starting investment value
-    stock_array = np.insert(stock_return, 0, fund_value * s_pct, axis=1)
-    bond_array = np.insert(bond_return, 0, fund_value * b_pct, axis=1)
+#     # set beginning of fund array to starting investment value
+#     stock_array = np.insert(stock_return, 0, fund_value * s_pct, axis=1)
+#     bond_array = np.insert(bond_return, 0, fund_value * b_pct, axis=1)
 
-    # the last return value is not used so we add a 1 to the end to return the array to its original length
-    ones_to_append = np.ones((stock_return.shape[0], 1), dtype=int)
-    stock_return = np.append(stock_return, ones_to_append, axis=1)
-    bond_return = np.append(bond_return, ones_to_append, axis=1)
+#     # the last return value is not used so we add a 1 to the end to return the array to its original length
+#     ones_to_append = np.ones((stock_return.shape[0], 1), dtype=int)
+#     stock_return = np.append(stock_return, ones_to_append, axis=1)
+#     bond_return = np.append(bond_return, ones_to_append, axis=1)
 
-    # create pandas series for various calcs
-    invest_s = invest_series(**config)
-    asset_mix_s = asset_mix(**config)
+#     # create pandas series for various calcs
+#     invest_s = invest_series(**config)
+#     asset_mix_s = asset_mix(**config)
 
-    # this is where the magic happens
-    # calc the fund value at each point in time, credit interest, add/withdraw from fund
-    for s, b, inv, alloc_s, alloc_b in zip(
-        stock_array, bond_array, invest_s, asset_mix_s["stock"], asset_mix_s["bond"]
-    ):
-        for i in range(1, len(s)):
-            s[i] = s[i - 1] * s[i]  # stock fund @t = stock fund @t-1 * stock return
-            b[i] = b[i - 1] * b[i]  # bond fund @t = bond fund @t-1 * bond return
-            total_fund = (
-                s[i] + b[i] + inv[i - 1] / freq
-            )  # total fund = stock + bond fund +/- investment
-            s[i] = total_fund * alloc_s  # reallocate fund value to stock fund
-            b[i] = total_fund * alloc_b  # reallocate fund value to bond fund
+#     # this is where the magic happens
+#     # calc the fund value at each point in time, credit interest, add/withdraw from fund
+#     for s, b, inv, alloc_s, alloc_b in zip(
+#         stock_array, bond_array, invest_s, asset_mix_s["stock"], asset_mix_s["bond"]
+#     ):
+#         for i in range(1, len(s)):
+#             s[i] = s[i - 1] * s[i]  # stock fund @t = stock fund @t-1 * stock return
+#             b[i] = b[i - 1] * b[i]  # bond fund @t = bond fund @t-1 * bond return
+#             total_fund = (
+#                 s[i] + b[i] + inv[i - 1] / freq
+#             )  # total fund = stock + bond fund +/- investment
+#             s[i] = total_fund * alloc_s  # reallocate fund value to stock fund
+#             b[i] = total_fund * alloc_b  # reallocate fund value to bond fund
 
-    total_fund = stock_array + bond_array
-    df = pd.DataFrame(total_fund.T)
+#     total_fund = stock_array + bond_array
+#     df = pd.DataFrame(total_fund.T)
 
-    return df
+#     return df
