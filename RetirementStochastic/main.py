@@ -20,7 +20,7 @@ class Retirement_Analysis:
         # projection inputs
         yrs = self.yrs              # number of yrs to project
         freq = 1                    # number of periods per year
-        n_scen = 100                # number of scenarios
+        n_scen = 1000                # number of scenarios
 
         # demographic inputs
         age = self.age               # starting age
