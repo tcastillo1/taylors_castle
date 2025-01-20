@@ -3,7 +3,7 @@ import streamlit as st
 from functions import age_series
 from main import retirement_analysis
 
-st.title("Retirement Planner 👦")
+st.title("Retirement Planner 📘")
 
 # User inputs
 age = st.sidebar.number_input("Enter your current age:", min_value=0, max_value=100, value=35)
